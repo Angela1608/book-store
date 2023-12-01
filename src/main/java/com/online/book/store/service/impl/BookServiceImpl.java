@@ -8,7 +8,6 @@ import com.online.book.store.model.Book;
 import com.online.book.store.repository.BookRepository;
 import com.online.book.store.service.BookService;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -23,18 +22,16 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public List<BookDto> getAll() {
-        List<Book> books = bookRepository.findAll();
-        return books.stream()
+        return bookRepository.findAll().stream()
                 .map(bookMapper::toDto)
                 .collect(Collectors.toList());
     }
 
-    @Override
     public BookDto getBookById(Long id) {
         String msg = String.format("Can't find book by id '%s'", id);
-        Optional<Book> optionalBook = bookRepository.findBookById(id);
-        Book book = optionalBook.orElseThrow(() -> new EntityNotFoundException(msg));
-        return bookMapper.toDto(book);
+        return bookRepository.findBookById(id)
+                .map(bookMapper::toDto)
+                .orElseThrow(() -> new EntityNotFoundException(msg));
     }
 
     @Override
