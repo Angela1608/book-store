@@ -6,7 +6,7 @@ import com.online.book.store.dto.response.BookDto;
 import com.online.book.store.model.Book;
 import org.mapstruct.Mapper;
 
-@Mapper(imports = MapperConfig.class)
+@Mapper(imports = MapperConfig.class, componentModel = "spring")
 public interface BookMapper {
     BookDto toDto(Book book);
 
