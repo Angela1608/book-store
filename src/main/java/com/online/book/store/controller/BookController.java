@@ -1,6 +1,7 @@
 package com.online.book.store.controller;
 
 import com.online.book.store.dto.request.CreateBookRequestDto;
+import com.online.book.store.dto.request.UpdateBookRequestDto;
 import com.online.book.store.dto.response.BookDto;
 import com.online.book.store.service.BookService;
 import java.util.List;
@@ -42,7 +43,9 @@ public class BookController {
     }
 
     @PutMapping("{id}")
-    public BookDto updateBookById(@PathVariable Long id) {
-        return bookService.updateBookById(id);
+    public BookDto updateBookById(@PathVariable Long id,
+                                  @RequestBody UpdateBookRequestDto bookDto) {
+        return bookService.updateBookById(id, bookDto);
     }
+
 }

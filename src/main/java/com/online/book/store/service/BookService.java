@@ -1,6 +1,7 @@
 package com.online.book.store.service;
 
 import com.online.book.store.dto.request.CreateBookRequestDto;
+import com.online.book.store.dto.request.UpdateBookRequestDto;
 import com.online.book.store.dto.response.BookDto;
 import java.util.List;
 
@@ -13,6 +14,6 @@ public interface BookService {
 
     BookDto deleteBookById(Long id);
 
-    BookDto updateBookById(Long id);
+    BookDto updateBookById(Long id, UpdateBookRequestDto bookRequestDto);
 
 }
