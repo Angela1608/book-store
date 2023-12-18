@@ -1,5 +1,6 @@
 package com.online.book.store.controller;
 
+import com.online.book.store.dto.request.BookSearchParametersDto;
 import com.online.book.store.dto.request.CreateBookRequestDto;
 import com.online.book.store.dto.request.UpdateBookRequestDto;
 import com.online.book.store.dto.response.BookDto;
@@ -46,6 +47,11 @@ public class BookController {
     public BookDto updateBookById(@PathVariable Long id,
                                   @RequestBody UpdateBookRequestDto bookDto) {
         return bookService.updateBookById(id, bookDto);
+    }
+
+    @GetMapping("/search")
+    public List<BookDto> searchBooks(BookSearchParametersDto searchParameters) {
+        return bookService.search(searchParameters);
     }
 
 }
