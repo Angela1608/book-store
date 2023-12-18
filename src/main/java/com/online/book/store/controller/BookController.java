@@ -4,6 +4,7 @@ import com.online.book.store.dto.request.CreateBookRequestDto;
 import com.online.book.store.dto.response.BookDto;
 import com.online.book.store.service.BookService;
 import java.util.List;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -30,7 +31,7 @@ public class BookController {
     }
 
     @PostMapping()
-    public BookDto createBook(@RequestBody CreateBookRequestDto bookDto) {
+    public BookDto createBook(@Valid @RequestBody CreateBookRequestDto bookDto) {
         return bookService.createBook(bookDto);
     }
 
