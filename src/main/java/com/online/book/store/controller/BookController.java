@@ -1,5 +1,6 @@
 package com.online.book.store.controller;
 
+import com.online.book.store.dto.request.BookSearchParametersDto;
 import com.online.book.store.dto.request.CreateBookRequestDto;
 import com.online.book.store.dto.response.BookDto;
 import com.online.book.store.service.BookService;
@@ -32,6 +33,11 @@ public class BookController {
     @PostMapping()
     public BookDto createBook(@RequestBody CreateBookRequestDto bookDto) {
         return bookService.createBook(bookDto);
+    }
+
+    @GetMapping("/search")
+    public List<BookDto> searchBooks(BookSearchParametersDto searchParameters) {
+        return bookService.search(searchParameters);
     }
 
 }
