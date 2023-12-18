@@ -72,7 +72,6 @@ public class BookServiceImpl implements BookService {
         return bookMapper.toDto(updatedBook);
     }
 
-
     @Override
     public List<BookDto> search(BookSearchParametersDto params) {
         Specification<Book> bookSpecification = bookSpecificationBuilder.build(params);
