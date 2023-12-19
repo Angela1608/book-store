@@ -1,8 +1,7 @@
 package com.online.book.store.controller;
 
+import com.online.book.store.dto.request.BookRequestDto;
 import com.online.book.store.dto.request.BookSearchParametersDto;
-import com.online.book.store.dto.request.CreateBookRequestDto;
-import com.online.book.store.dto.request.UpdateBookRequestDto;
 import com.online.book.store.dto.response.BookDto;
 import com.online.book.store.service.BookService;
 import java.util.List;
@@ -37,7 +36,7 @@ public class BookController {
     }
 
     @PostMapping()
-    public BookDto createBook(@Valid @RequestBody CreateBookRequestDto bookDto) {
+    public BookDto createBook(@Valid @RequestBody BookRequestDto bookDto) {
         return bookService.createBook(bookDto);
     }
 
@@ -48,7 +47,7 @@ public class BookController {
 
     @PutMapping("{id}")
     public BookDto updateBookById(@PathVariable Long id,
-                                  @Valid @RequestBody UpdateBookRequestDto bookDto) {
+                                  @Valid @RequestBody BookRequestDto bookDto) {
         return bookService.updateBookById(id, bookDto);
     }
 

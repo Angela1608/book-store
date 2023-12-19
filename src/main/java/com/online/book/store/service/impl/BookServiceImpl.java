@@ -1,8 +1,7 @@
 package com.online.book.store.service.impl;
 
 import com.online.book.store.dto.request.BookSearchParametersDto;
-import com.online.book.store.dto.request.CreateBookRequestDto;
-import com.online.book.store.dto.request.UpdateBookRequestDto;
+import com.online.book.store.dto.request.BookRequestDto;
 import com.online.book.store.dto.response.BookDto;
 import com.online.book.store.exception.EntityNotFoundException;
 import com.online.book.store.mapper.BookMapper;
@@ -42,7 +41,7 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public BookDto createBook(CreateBookRequestDto bookDto) {
+    public BookDto createBook(BookRequestDto bookDto) {
         Book book = bookMapper.toEntity(bookDto);
         Book savedBook = bookRepository.save(book);
         return bookMapper.toDto(savedBook);
@@ -58,7 +57,7 @@ public class BookServiceImpl implements BookService {
 
     @Override
     @Transactional
-    public BookDto updateBookById(Long id, UpdateBookRequestDto bookRequestDto) {
+    public BookDto updateBookById(Long id, BookRequestDto bookRequestDto) {
         String msg = String.format("Can't find book by id '%s'", id);
         Book book = bookRepository.findBookById(id)
                 .orElseThrow(() -> new EntityNotFoundException(msg));
