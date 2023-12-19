@@ -8,6 +8,7 @@ import com.online.book.store.service.BookService;
 import java.util.List;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@Validated
 @RequestMapping("/api/books")
 @RequiredArgsConstructor
 public class BookController {
@@ -46,7 +48,7 @@ public class BookController {
 
     @PutMapping("{id}")
     public BookDto updateBookById(@PathVariable Long id,
-                                  @RequestBody UpdateBookRequestDto bookDto) {
+                                  @Valid @RequestBody UpdateBookRequestDto bookDto) {
         return bookService.updateBookById(id, bookDto);
     }
 

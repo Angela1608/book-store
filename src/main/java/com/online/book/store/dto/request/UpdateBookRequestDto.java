@@ -1,16 +1,29 @@
 package com.online.book.store.dto.request;
 
 import java.math.BigDecimal;
+import jakarta.validation.constraints.DecimalMin;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 @Data
 public class UpdateBookRequestDto {
 
+    @NotBlank(message = "Title is required")
     private String title;
-    private String author;
-    private String isbn;
-    private BigDecimal price;
-    private String description;
-    private String coverImage;
 
+    @NotBlank(message = "Author is required")
+    private String author;
+
+    @NotBlank(message = "ISBN is required")
+    private String isbn;
+
+    @DecimalMin(value = "0.0", message = "Price must be a positive number")
+    @NotNull(message = "Price is required")
+    private BigDecimal price;
+
+    @NotBlank(message = "Description is required")
+    private String description;
+
+    private String coverImage;
 }
