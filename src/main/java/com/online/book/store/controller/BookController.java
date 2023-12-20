@@ -1,12 +1,13 @@
 package com.online.book.store.controller;
 
+import com.online.book.store.dto.request.BookRequestDto;
 import com.online.book.store.dto.request.BookSearchParametersDto;
-import com.online.book.store.dto.request.CreateBookRequestDto;
-import com.online.book.store.dto.request.UpdateBookRequestDto;
 import com.online.book.store.dto.response.BookDto;
 import com.online.book.store.service.BookService;
+import jakarta.validation.Valid;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@Validated
 @RequestMapping("/api/books")
 @RequiredArgsConstructor
 public class BookController {
@@ -34,7 +36,7 @@ public class BookController {
     }
 
     @PostMapping()
-    public BookDto createBook(@RequestBody CreateBookRequestDto bookDto) {
+    public BookDto createBook(@Valid @RequestBody BookRequestDto bookDto) {
         return bookService.createBook(bookDto);
     }
 
@@ -45,7 +47,7 @@ public class BookController {
 
     @PutMapping("{id}")
     public BookDto updateBookById(@PathVariable Long id,
-                                  @RequestBody UpdateBookRequestDto bookDto) {
+                                  @Valid @RequestBody BookRequestDto bookDto) {
         return bookService.updateBookById(id, bookDto);
     }
 
