@@ -4,9 +4,11 @@ import com.online.book.store.dto.request.BookRequestDto;
 import com.online.book.store.dto.request.BookSearchParametersDto;
 import com.online.book.store.dto.response.BookDto;
 import java.util.List;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 public interface BookService {
-    List<BookDto> getAll();
+    Page<BookDto> getAll(Pageable pageable);
 
     BookDto getBookById(Long id);
 
