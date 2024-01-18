@@ -12,6 +12,9 @@ import com.online.book.store.service.BookService;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,10 +30,12 @@ public class BookServiceImpl implements BookService {
     private final BookSpecificationBuilder bookSpecificationBuilder;
 
     @Override
-    public List<BookDto> getAll() {
-        return bookRepository.findAll().stream()
+    public Page<BookDto> getAll(Pageable pageable) {
+        List<BookDto> bookDtos = bookRepository.findAll(pageable)
+                .stream()
                 .map(bookMapper::toDto)
                 .collect(Collectors.toList());
+        return new PageImpl<>(bookDtos, pageable, bookDtos.size());
     }
 
     public BookDto getBookById(Long id) {
