@@ -38,18 +38,16 @@ public class CustomGlobalExceptionHandler extends ResponseEntityExceptionHandler
     }
 
     @ExceptionHandler(RegistrationException.class)
-    public ResponseEntity<Object> handleInternalException(
+    public ResponseEntity<Object> handleRegistrationException(
             RegistrationException ex,
-            HttpHeaders headers,
-            HttpStatus status,
             WebRequest request
     ) {
         Map<String, Object> body = new LinkedHashMap<>();
         body.put("timestamp", LocalDateTime.now());
-        body.put("status", HttpStatus.BAD_REQUEST);
+        body.put("status", HttpStatus.CONFLICT.value());
         String error = ex.getMessage();
         body.put("error", error);
-        return handleExceptionInternal(ex, body, headers, status, request);
+        return new ResponseEntity<>(body, HttpStatus.CONFLICT);
     }
 
     private String getErrorMessage(ObjectError e) {
