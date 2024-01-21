@@ -2,11 +2,11 @@ package com.online.book.store.dto.request;
 
 import com.online.book.store.lib.FieldsMatch;
 import com.online.book.store.model.Role;
-import java.util.Set;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
+import java.util.Set;
 import lombok.Data;
 
 @FieldsMatch(
