@@ -1,0 +1,89 @@
+databaseChangeLog:
+  - changeSet:
+      id: 06-insert-data
+      author: Angela Matiiva
+      changes:
+        # Insert roles
+        - insert:
+            tableName: roles
+            columns:
+              - column:
+                  name: id
+                  value: 1
+              - column:
+                  name: role_name
+                  value: 'ROLE_USER'
+        - insert:
+            tableName: roles
+            columns:
+              - column:
+                  name: id
+                  value: 2
+              - column:
+                  name: role_name
+                  value: 'ROLE_ADMIN'
+
+        # Insert users
+        - insert:
+            tableName: users
+            columns:
+              - column:
+                  name: id
+                  value: 1
+              - column:
+                  name: email
+                  value: 'user@example.com'
+              - column:
+                  name: password
+                  value: '$2a$10$xAnL75fs6zCo3CczAaG7cO4hYAUs7O2Zw5S939Syml7ZxJnPIf..u'
+              - column:
+                  name: first_name
+                  value: 'John'
+              - column:
+                  name: last_name
+                  value: 'Doe'
+              - column:
+                  name: shipping_address
+                  value: '123 Main St'
+
+        - insert:
+            tableName: users
+            columns:
+              - column:
+                  name: id
+                  value: 2
+              - column:
+                  name: email
+                  value: 'admin@example.com'
+              - column:
+                  name: password
+                  value: '$2a$10$xAnL75fs6zCo3CczAaG7cO4hYAUs7O2Zw5S939Syml7ZxJnPIf..u'
+              - column:
+                  name: first_name
+                  value: 'Alice'
+              - column:
+                  name: last_name
+                  value: 'Smith'
+              - column:
+                  name: shipping_address
+                  value: '123 Main St'
+
+        # Associate User with Roles
+        - insert:
+            tableName: users_roles
+            columns:
+              - column:
+                  name: user_id
+                  value: 1
+              - column:
+                  name: role_id
+                  value: 1
+        - insert:
+            tableName: users_roles
+            columns:
+              - column:
+                  name: user_id
+                  value: 2
+              - column:
+                  name: role_id
+                  value: 2
