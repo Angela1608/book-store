@@ -38,7 +38,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(
                         auth -> auth
                                 .requestMatchers("/api/auth/**").permitAll()
-                                .requestMatchers("/", "/swagger-ui/**").permitAll()
+                                .requestMatchers("/swagger-ui/**").permitAll()
                                 .anyRequest().authenticated()
                 )
                 .httpBasic(Customizer.withDefaults())
@@ -56,4 +56,5 @@ public class SecurityConfig {
             throws Exception {
         return authConfig.getAuthenticationManager();
     }
+
 }
