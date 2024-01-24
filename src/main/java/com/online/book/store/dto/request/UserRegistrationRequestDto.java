@@ -15,10 +15,10 @@ import lombok.Data;
         message = "Passwords do not match!"
 )
 @Data
-public class UserRequestDto {
+public class UserRegistrationRequestDto {
 
     private static final String PASSWORD_PATTERN =
-            "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=!]).*$";
+            "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=!])(?!\\s).*$";
 
     @Email
     private String email;
@@ -27,7 +27,7 @@ public class UserRequestDto {
     @Size(min = 8, max = 20, message = "Password must be between 8 and 20 characters")
     @Pattern(regexp = PASSWORD_PATTERN,
             message = "Password must contain at least one digit, one lowercase "
-                    + "and one uppercase letter, one special character")
+                    + "and one uppercase letter, one special character, and no spaces")
     private String password;
 
     private String repeatPassword;

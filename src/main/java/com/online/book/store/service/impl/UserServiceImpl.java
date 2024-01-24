@@ -1,8 +1,7 @@
 package com.online.book.store.service.impl;
 
-import com.online.book.store.config.SecurityConfig;
-import com.online.book.store.dto.request.UserRequestDto;
-import com.online.book.store.dto.response.UserDto;
+import com.online.book.store.dto.request.UserRegistrationRequestDto;
+import com.online.book.store.dto.response.UserRegistrationResponseDto;
 import com.online.book.store.exception.RegistrationException;
 import com.online.book.store.mapper.UserMapper;
 import com.online.book.store.model.Role;
@@ -13,7 +12,9 @@ import com.online.book.store.service.UserService;
 import java.util.Set;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -23,19 +24,20 @@ public class UserServiceImpl implements UserService {
 
     private final UserMapper userMapper;
 
-    private final SecurityConfig config;
+    private final PasswordEncoder passwordEncoder;
 
     private final RoleService roleService;
 
     @Override
-    public UserDto register(UserRequestDto requestDto)
+    @Transactional
+    public UserRegistrationResponseDto register(UserRegistrationRequestDto requestDto)
             throws RegistrationException {
         if (userRepository.findByEmail(requestDto.getEmail()).isPresent()) {
             throw new RegistrationException("User is already registered");
         }
         User user = new User();
         user.setEmail(requestDto.getEmail());
-        user.setPassword(config.getPasswordEncoder().encode(requestDto.getPassword()));
+        user.setPassword(passwordEncoder.encode(requestDto.getPassword()));
         user.setFirstName(requestDto.getFirstName());
         user.setLastName(requestDto.getLastName());
         user.setShippingAddress(requestDto.getShippingAddress());
