@@ -14,10 +14,12 @@ public interface BookService {
 
     BookDto createBook(BookRequestDto bookDto);
 
-    BookDto deleteBookById(Long id);
+    void deleteBookById(Long id);
 
     BookDto updateBookById(Long id, BookRequestDto bookRequestDto);
 
     List<BookDto> search(BookSearchParametersDto bookSearchParametersDto);
+
+    Page<BookDto> getBooksByCategoryId(Long categoryId, Pageable pageable);
 
 }
