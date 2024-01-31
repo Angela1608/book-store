@@ -3,6 +3,7 @@ package com.online.book.store.service;
 import com.online.book.store.dto.request.BookRequestDto;
 import com.online.book.store.dto.request.BookSearchParametersDto;
 import com.online.book.store.dto.response.BookDto;
+import com.online.book.store.dto.response.BookWithoutCategoriesDto;
 import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -20,6 +21,6 @@ public interface BookService {
 
     List<BookDto> search(BookSearchParametersDto bookSearchParametersDto);
 
-    Page<BookDto> getBooksByCategoryId(Long categoryId, Pageable pageable);
+    Page<BookWithoutCategoriesDto> getBooksByCategoryId(Long categoryId, Pageable pageable);
 
 }

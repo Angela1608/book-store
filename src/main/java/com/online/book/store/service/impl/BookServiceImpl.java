@@ -3,17 +3,14 @@ package com.online.book.store.service.impl;
 import com.online.book.store.dto.request.BookRequestDto;
 import com.online.book.store.dto.request.BookSearchParametersDto;
 import com.online.book.store.dto.response.BookDto;
+import com.online.book.store.dto.response.BookWithoutCategoriesDto;
 import com.online.book.store.exception.EntityNotFoundException;
 import com.online.book.store.mapper.BookMapper;
-import com.online.book.store.mapper.CategoryMapper;
 import com.online.book.store.model.Book;
-import com.online.book.store.model.Category;
 import com.online.book.store.repository.book.BookRepository;
 import com.online.book.store.repository.book.BookSpecificationBuilder;
-import com.online.book.store.repository.category.CategoryRepository;
 import com.online.book.store.service.BookService;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -31,11 +28,7 @@ public class BookServiceImpl implements BookService {
 
     private final BookRepository bookRepository;
 
-    private final CategoryRepository categoryRepository;
-
     private final BookMapper bookMapper;
-
-    private final CategoryMapper categoryMapper;
 
     private final BookSpecificationBuilder bookSpecificationBuilder;
 
@@ -57,12 +50,7 @@ public class BookServiceImpl implements BookService {
     @Override
     @Transactional
     public BookDto createBook(BookRequestDto bookDto) {
-        var book = bookMapper.toEntity(bookDto);
-        Set<Category> categories = bookDto.getCategories().stream()
-                .map(categoryMapper::toEntity)
-                .map(categoryRepository::save)
-                .collect(Collectors.toSet());
-        book.setCategories(categories);
+        Book book = bookMapper.toEntity(bookDto);
         var savedBook = bookRepository.save(book);
         return bookMapper.toDto(savedBook);
     }
@@ -75,10 +63,10 @@ public class BookServiceImpl implements BookService {
     @Override
     @Transactional
     public BookDto updateBookById(Long id, BookRequestDto bookRequestDto) {
-        var book = bookRepository.findBookById(id)
+        Book book = bookRepository.findBookById(id)
                 .orElseThrow(() -> new EntityNotFoundException(String.format(BOOK_NOT_FOUND, id)));
-        var updatedBook = bookMapper.updateBookFromDto(bookRequestDto, book);
-        var savedBook = bookRepository.save(updatedBook);
+        Book updatedBook = bookMapper.updateBookFromDto(book, bookRequestDto);
+        Book savedBook = bookRepository.save(updatedBook);
         return bookMapper.toDto(savedBook);
     }
 
@@ -91,11 +79,11 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public Page<BookDto> getBooksByCategoryId(
+    public Page<BookWithoutCategoriesDto> getBooksByCategoryId(
             Long categoryId, Pageable pageable) {
-        List<BookDto> bookDtos = bookRepository
+        List<BookWithoutCategoriesDto> bookDtos = bookRepository
                 .findAllByCategoriesId(categoryId, pageable).stream()
-                .map(bookMapper::toDto)
+                .map(bookMapper::toBookWithoutCategoriesDto)
                 .toList();
         return new PageImpl<>(bookDtos, pageable, bookDtos.size());
     }

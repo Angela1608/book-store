@@ -4,6 +4,7 @@ import com.online.book.store.dto.request.CategoryRequestDto;
 import com.online.book.store.dto.response.CategoryDto;
 import com.online.book.store.exception.EntityNotFoundException;
 import com.online.book.store.mapper.CategoryMapper;
+import com.online.book.store.model.Category;
 import com.online.book.store.repository.category.CategoryRepository;
 import com.online.book.store.service.CategoryService;
 import java.util.List;
@@ -42,19 +43,19 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public CategoryDto create(CategoryRequestDto requestDto) {
-        var category = categoryMapper.toEntity(requestDto);
-        var savedCategory = categoryRepository.save(category);
+        Category category = categoryMapper.toEntity(requestDto);
+        Category savedCategory = categoryRepository.save(category);
         return categoryMapper.toDto(savedCategory);
     }
 
     @Override
     @Transactional
     public CategoryDto update(Long id, CategoryRequestDto requestDto) {
-        var category = categoryRepository.findById(id)
+        Category category = categoryRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException(
                         String.format(CATEGORY_NOT_FOUND, id)));
-        var updatedCategory = categoryMapper.updateCategoryFromDto(requestDto, category);
-        var savedCategory = categoryRepository.save(updatedCategory);
+        Category updatedCategory = categoryMapper.updateCategoryFromDto(requestDto, category);
+        Category savedCategory = categoryRepository.save(updatedCategory);
         return categoryMapper.toDto(savedCategory);
     }
 

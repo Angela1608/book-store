@@ -26,11 +26,11 @@ public class BookRequestDto {
     private BigDecimal price;
 
     @NotBlank(message = "Description is required")
-    @Size(min = 50, max = 100)
+    @Size(min = 5, max = 100)
     private String description;
 
     private String coverImage;
 
-    private Set<CategoryRequestDto> categories;
+    private Set<Long> categories;
 
 }

@@ -1,7 +1,7 @@
 package com.online.book.store.controller;
 
 import com.online.book.store.dto.request.CategoryRequestDto;
-import com.online.book.store.dto.response.BookDto;
+import com.online.book.store.dto.response.BookWithoutCategoriesDto;
 import com.online.book.store.dto.response.CategoryDto;
 import com.online.book.store.service.BookService;
 import com.online.book.store.service.CategoryService;
@@ -77,7 +77,7 @@ public class CategoryController {
     @Operation(summary = "Get books by category(paged)",
             description = "Returns a list of books by specific category")
     @PreAuthorize(value = "hasRole('ROLE_USER')")
-    public Page<BookDto> getBooksByCategoryId(
+    public Page<BookWithoutCategoriesDto> getBooksByCategoryId(
             @PathVariable Long id, Pageable pageable) {
         return bookService.getBooksByCategoryId(id, pageable);
     }
