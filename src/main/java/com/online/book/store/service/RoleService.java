@@ -7,4 +7,5 @@ import java.util.Set;
 public interface RoleService {
 
     Set<Role> findAllByRoleNames(Set<RoleName> roleNames);
+
 }
