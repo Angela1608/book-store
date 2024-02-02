@@ -3,6 +3,7 @@ package com.online.book.store.service.impl;
 import com.online.book.store.dto.request.BookRequestDto;
 import com.online.book.store.dto.request.BookSearchParametersDto;
 import com.online.book.store.dto.response.BookDto;
+import com.online.book.store.dto.response.BookWithoutCategoriesDto;
 import com.online.book.store.exception.EntityNotFoundException;
 import com.online.book.store.mapper.BookMapper;
 import com.online.book.store.model.Book;
@@ -23,6 +24,8 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class BookServiceImpl implements BookService {
 
+    private static final String BOOK_NOT_FOUND = "Can't find book by id '%s'";
+
     private final BookRepository bookRepository;
 
     private final BookMapper bookMapper;
@@ -39,41 +42,32 @@ public class BookServiceImpl implements BookService {
     }
 
     public BookDto getBookById(Long id) {
-        String msg = String.format("Can't find book by id '%s'", id);
         return bookRepository.findBookById(id)
                 .map(bookMapper::toDto)
-                .orElseThrow(() -> new EntityNotFoundException(msg));
+                .orElseThrow(() -> new EntityNotFoundException(String.format(BOOK_NOT_FOUND, id)));
     }
 
     @Override
+    @Transactional
     public BookDto createBook(BookRequestDto bookDto) {
         Book book = bookMapper.toEntity(bookDto);
-        Book savedBook = bookRepository.save(book);
+        var savedBook = bookRepository.save(book);
         return bookMapper.toDto(savedBook);
     }
 
     @Override
-    public BookDto deleteBookById(Long id) {
-        String msg = String.format("Can't find book by id '%s'", id);
-        return bookRepository.findBookById(id)
-                .map(bookMapper::toDto)
-                .orElseThrow(() -> new EntityNotFoundException(msg));
+    public void deleteBookById(Long id) {
+        bookRepository.deleteById(id);
     }
 
     @Override
     @Transactional
     public BookDto updateBookById(Long id, BookRequestDto bookRequestDto) {
-        String msg = String.format("Can't find book by id '%s'", id);
         Book book = bookRepository.findBookById(id)
-                .orElseThrow(() -> new EntityNotFoundException(msg));
-        book.setTitle(bookRequestDto.getTitle());
-        book.setAuthor(bookRequestDto.getAuthor());
-        book.setIsbn(bookRequestDto.getIsbn());
-        book.setPrice(bookRequestDto.getPrice());
-        book.setDescription(bookRequestDto.getDescription());
-        book.setCoverImage(bookRequestDto.getCoverImage());
-        Book updatedBook = bookRepository.save(book);
-        return bookMapper.toDto(updatedBook);
+                .orElseThrow(() -> new EntityNotFoundException(String.format(BOOK_NOT_FOUND, id)));
+        Book updatedBook = bookMapper.updateBookFromDto(book, bookRequestDto);
+        Book savedBook = bookRepository.save(updatedBook);
+        return bookMapper.toDto(savedBook);
     }
 
     @Override
@@ -82,6 +76,16 @@ public class BookServiceImpl implements BookService {
         return bookRepository.findAll(bookSpecification).stream()
                 .map(bookMapper::toDto)
                 .toList();
+    }
+
+    @Override
+    public Page<BookWithoutCategoriesDto> getBooksByCategoryId(
+            Long categoryId, Pageable pageable) {
+        List<BookWithoutCategoriesDto> bookDtos = bookRepository
+                .findAllByCategoriesId(categoryId, pageable).stream()
+                .map(bookMapper::toBookWithoutCategoriesDto)
+                .toList();
+        return new PageImpl<>(bookDtos, pageable, bookDtos.size());
     }
 
 }
