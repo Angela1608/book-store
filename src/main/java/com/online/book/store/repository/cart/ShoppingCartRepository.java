@@ -9,7 +9,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ShoppingCartRepository extends JpaRepository<ShoppingCart, Long> {
-
     @Query("SELECT sc FROM ShoppingCart sc JOIN sc.user u WHERE u.email = :userName")
     Optional<ShoppingCart> findByUserName(@Param("userName") String userName);
 
