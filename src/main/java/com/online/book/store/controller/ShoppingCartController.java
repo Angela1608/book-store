@@ -32,13 +32,6 @@ public class ShoppingCartController {
 
     private final ShoppingCartService shoppingCartService;
 
-    @PostMapping("/register")
-    @Operation(summary = "Create a shopping cart", description = "Creates a new shopping cart")
-    @PreAuthorize(value = "hasRole('ROLE_ADMIN')")
-    public void registerShoppingCart(Authentication auth) {
-        shoppingCartService.registerShoppingCart(auth);
-    }
-
     @GetMapping
     @Operation(summary = "Get shopping cart",
             description = "Retrieves user's shopping cart")
@@ -67,11 +60,11 @@ public class ShoppingCartController {
     }
 
     @DeleteMapping("/cart-items/{cartItemId}")
-    @Operation(summary = "delete book from shopping cart",
-            description = "Deletes a book from the shopping cart")
+    @Operation(summary = "delete cart item from shopping cart",
+            description = "Deletes a cart item from the shopping cart")
     @PreAuthorize(value = "hasRole('ROLE_USER')")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteBook(@PathVariable("cartItemId") Long cartItemId) {
+    public void deleteCartItem(@PathVariable("cartItemId") Long cartItemId) {
         shoppingCartService.delete(cartItemId);
     }
 

@@ -9,7 +9,6 @@ import com.online.book.store.mapper.ShoppingCartMapper;
 import com.online.book.store.model.Book;
 import com.online.book.store.model.CartItem;
 import com.online.book.store.model.ShoppingCart;
-import com.online.book.store.model.User;
 import com.online.book.store.repository.book.BookRepository;
 import com.online.book.store.repository.cart.CartItemRepository;
 import com.online.book.store.repository.cart.ShoppingCartRepository;
@@ -35,19 +34,6 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
     private final ShoppingCartMapper shoppingCartMapper;
     private final BookRepository bookRepository;
     private final CartItemRepository cartItemRepository;
-
-    @Override
-    @Transactional
-    public void registerShoppingCart(Authentication auth) {
-        UserDetails userDetails = (UserDetails) auth.getPrincipal();
-        String email = userDetails.getUsername();
-        User user = userRepository.findByEmail(email)
-                .orElseThrow(() -> new EntityNotFoundException("User is not found"));
-        ShoppingCart shoppingCart = new ShoppingCart();
-        shoppingCart.setUser(user);
-        shoppingCartRepository.save(shoppingCart);
-
-    }
 
     @Override
     public ShoppingCartDto get(Authentication auth) {

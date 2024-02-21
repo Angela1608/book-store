@@ -5,7 +5,9 @@ import com.online.book.store.dto.response.UserRegistrationResponseDto;
 import com.online.book.store.exception.RegistrationException;
 import com.online.book.store.mapper.UserMapper;
 import com.online.book.store.model.Role;
+import com.online.book.store.model.ShoppingCart;
 import com.online.book.store.model.User;
+import com.online.book.store.repository.cart.ShoppingCartRepository;
 import com.online.book.store.repository.user.UserRepository;
 import com.online.book.store.service.RoleService;
 import com.online.book.store.service.UserService;
@@ -28,6 +30,8 @@ public class UserServiceImpl implements UserService {
 
     private final RoleService roleService;
 
+    private final ShoppingCartRepository shoppingCartRepository;
+
     @Override
     @Transactional
     public UserRegistrationResponseDto register(UserRegistrationRequestDto requestDto)
@@ -47,6 +51,11 @@ public class UserServiceImpl implements UserService {
                                 .map(Role::getRoleName)
                                 .collect(Collectors.toSet()));
         user.setRoles(roles);
+
+        ShoppingCart shoppingCart = new ShoppingCart();
+        shoppingCart.setUser(user);
+        shoppingCartRepository.save(shoppingCart);
+
         User savedUser = userRepository.save(user);
         return userMapper.toDto(savedUser);
     }

@@ -7,9 +7,6 @@ import com.online.book.store.dto.response.ShoppingCartDto;
 import org.springframework.security.core.Authentication;
 
 public interface ShoppingCartService {
-
-    void registerShoppingCart(Authentication auth);
-
     ShoppingCartDto get(Authentication auth);
 
     CartItemDto addCartItemToShoppingCart(Authentication auth, CartItemRequestDto requestDto);
