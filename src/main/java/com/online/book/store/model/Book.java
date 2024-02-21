@@ -13,6 +13,7 @@ import jakarta.persistence.Table;
 import java.math.BigDecimal;
 import java.util.Set;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 import org.hibernate.annotations.SQLDelete;
@@ -21,6 +22,7 @@ import org.hibernate.annotations.Where;
 @Getter
 @Setter
 @ToString
+@RequiredArgsConstructor
 @Entity
 @SQLDelete(sql = "UPDATE books SET is_deleted=true WHERE id=?")
 @Where(clause = "is_deleted=false")
@@ -56,5 +58,9 @@ public class Book {
             joinColumns = @JoinColumn(name = "book_id"),
             inverseJoinColumns = @JoinColumn(name = "category_id"))
     private Set<Category> categories;
+
+    public Book(Long id) {
+        this.id = id;
+    }
 
 }
