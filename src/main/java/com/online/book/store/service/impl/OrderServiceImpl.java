@@ -80,6 +80,10 @@ public class OrderServiceImpl implements OrderService {
         List<Order> orders = orderRepository.findAllByUser_Email(email)
                 .orElseThrow(() ->
                         new EntityNotFoundException(String.format(ORDERS_NOT_FOUND, email)));
+<<<<<<< HEAD
+=======
+        ;
+>>>>>>> origin/feature/9-add-category-model
         List<OrderDto> orderDtos = orders.stream().map(orderMapper::toDto).toList();
         return new PageImpl<>(orderDtos, pageable, orderDtos.size());
     }
