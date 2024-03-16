@@ -39,7 +39,7 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
     public ShoppingCartDto get(Authentication auth) {
         UserDetails userDetails = (UserDetails) auth.getPrincipal();
         String email = userDetails.getUsername();
-        ShoppingCart shoppingCart = shoppingCartRepository.findByUserName(email)
+        ShoppingCart shoppingCart = shoppingCartRepository.findByUser_Email(email)
                 .orElseThrow(() -> new EntityNotFoundException(String.format(
                         SHOPPING_CART_NOT_FOUND, email)));
         return shoppingCartMapper.toDto(shoppingCart);
@@ -51,7 +51,7 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
                                                  CartItemRequestDto requestDto) {
         UserDetails userDetails = (UserDetails) auth.getPrincipal();
         String email = userDetails.getUsername();
-        ShoppingCart shoppingCart = shoppingCartRepository.findByUserName(email)
+        ShoppingCart shoppingCart = shoppingCartRepository.findByUser_Email(email)
                 .orElseThrow(() -> new EntityNotFoundException(String.format(
                         SHOPPING_CART_NOT_FOUND, email)));
 
